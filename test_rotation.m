@@ -7,11 +7,11 @@ function test_rotation(imr)
     pause(3)
     for angle = 1:45
         imr_rotate = imRotateCrop(imr, angle, 'bilinear'); 
-        [output, I, B] = interpolation_estimate(imr_rotate, delta, W, T, show);
+        [rotate_estimate, resize_estimate,  I, B] = interpolation_estimate(imr_rotate, delta, W, T, show);
         fprintf('Rotating by %d\n', angle)
-        fprintf('Estimated angle: %.3f, %.3f\n\n', output(1, 1:end))
+%         fprintf('%.3f, %.3f, %.3f\n', resize_estimate)
+        fprintf('Estimated angle: %.3f, %.3f\n\n', rotate_estimate)
         pause(0.5)
     end
-
 end
 

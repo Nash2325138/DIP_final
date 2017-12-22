@@ -1,4 +1,4 @@
-function [output, I, B] = interpolation_estimate(imr, delta, W, T, show)
+function [rotate_estimate, resize_estimate, I, B] = interpolation_estimate(imr, delta, W, T, show)
     filter = fspecial('laplacian', 0);
     imf = imfilter(imr, filter);
 
@@ -57,7 +57,7 @@ function [output, I, B] = interpolation_estimate(imr, delta, W, T, show)
             rotate_estimate = [acosd(1 - f1), asind(f2)];
             
             if abs(rotate_estimate(1) - rotate_estimate(2)) > 3
-                disp('estimated angle > 30')
+%                 disp('estimated angle > 30')
                 rotate_estimate(2) = asind(1 - f2);
             end
         else
@@ -65,11 +65,13 @@ function [output, I, B] = interpolation_estimate(imr, delta, W, T, show)
             % which makes peak f1 too small to be found
             f2 = I(1);
             rotate_estimate = [nan, asind(f2)];
-        end    
-        output = [rotate_estimate; 1/I(1), 1-1/I(1)];
+        end
+        f_int = I(1);
+        resize_estimate = [1/(1-f_int), 1/f_int, 1/(1+f_int)];
 %         output(output > 45) = 0;
     else
-        output = zeros(2);
+        rotate_estimate = [0, 0];
+        resize_estimate = [0, 0, 0];
     end
     
 end
