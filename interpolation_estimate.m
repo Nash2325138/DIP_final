@@ -27,15 +27,18 @@ function [output, I, B] = interpolation_estimate(imr, delta, W, T, show)
     end
 
     if show == 1
+        subplot(3,2,[2,4,6])
+        imshow(imr)
+        
         rowf_sum = rowf_sum ./ height;
-        subplot(3,1,1)
+        subplot(3,2,1)
         plot([2: width] ./ width, abs(rowf_sum(2:end)))
 
-        subplot(3,1,2)
+        subplot(3,2,3)
         temp = fft(mean(imf, 1));
         plot([2: width] ./ width, abs(temp(2:end)))
 
-        ax = subplot(3,1,3);
+        ax = subplot(3,2,5);
         bar([2: width] ./ width, c(2:end))
         xlim(ax, [0, 1])
     end
@@ -54,6 +57,7 @@ function [output, I, B] = interpolation_estimate(imr, delta, W, T, show)
             rotate_estimate = [acosd(1 - f1), asind(f2)];
             
             if abs(rotate_estimate(1) - rotate_estimate(2)) > 3
+                disp('estimated angle > 30')
                 rotate_estimate(2) = asind(1 - f2);
             end
         else
