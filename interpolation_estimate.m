@@ -1,4 +1,4 @@
-function [output, I, B] = interpolation_estimate(imr)
+function [output, I, B] = interpolation_estimate(imr, delta, W, T)
     filter = fspecial('laplacian');
     imf = imfilter(imr, filter);
 
@@ -15,7 +15,7 @@ function [output, I, B] = interpolation_estimate(imr)
         rowf_sum = rowf_sum + abs(rowf);
         for j = 1 : width
             flag = 1;
-            for k = -5 : 5
+            for k = -delta : delta
                 if j + k > 0 && j + k <= width && k ~= 0
                     if abs(rowf(j + k)) > abs(rowf(j))
                         flag = 0;
@@ -38,8 +38,6 @@ function [output, I, B] = interpolation_estimate(imr)
     bar([2: width] ./ width, c(2:end))
     xlim(ax, [0, 1])
 
-    W = 2;
-    T = 2;
     records = peak_detection(c, W, T);
 
     [B, I] = sort(records, 'descend');
