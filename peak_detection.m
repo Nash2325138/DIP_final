@@ -6,8 +6,10 @@ function records = peak_detection(c, W, T)
     for i = 1 : half_width
         if i - W > 0 && i + W <= half_width
             part = half_c(i - W:i + W);
-            med = median(part);
-            if half_c(i) - med > T
+            cmp = median(part);
+            % cmp = sort(part, 'descend');
+            % cmp = cmp(2);
+            if half_c(i) - cmp > T
                 records(i) = c(i);
             end
         end

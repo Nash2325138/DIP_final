@@ -30,6 +30,8 @@ function [rotate_estimate, resize_estimate, F, B] = interpolation_estimate(imr, 
     average_dft = abs(fft(mean(imf, 1)));
     AD_records = peak_detection_AD(average_dft, 5, 0.05);
 
+    records = peak_detection(c, W, T);
+
     if show == 1
         subplot(4,2,[2,4,6,8])
         imshow(imr)
@@ -44,13 +46,13 @@ function [rotate_estimate, resize_estimate, F, B] = interpolation_estimate(imr, 
         bar([2: width] ./ width, c(2:end))
         xlim(ax, [0, 1])
 
+        % ax = subplot(4,2,7);
+        % bar([1: size(AD_records, 1) * 2] ./ width, [AD_records; flip(AD_records, 1)])
+        % xlim(ax, [0, 1])
         ax = subplot(4,2,7);
-        size(AD_records)
-        bar([1: size(AD_records, 1) * 2] ./ width, [AD_records; flip(AD_records, 1)])
-        xlim(ax, [0, 1])
+        bar([1: size(records, 1) * 2] ./ width, [records; flip(records, 1)]);
+        xlim(ax, [0, 1]);
     end
-
-    records = peak_detection(c, W, T);
 
     [B, I] = sort(records, 'descend');
     F = I ./ width;
