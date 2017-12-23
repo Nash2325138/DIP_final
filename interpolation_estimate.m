@@ -44,10 +44,10 @@ function [rotate_estimate, resize_estimate, F, B] = interpolation_estimate(imr, 
         bar([2: width] ./ width, c(2:end))
         xlim(ax, [0, 1])
 
-        subplot(4,2,7)
+        ax = subplot(4,2,7);
         size(AD_records)
-        bar([1: size(AD_records) * 2], [AD_records; fliplr(AD_records)])
-
+        bar([1: size(AD_records, 1) * 2] ./ width, [AD_records; flip(AD_records, 1)])
+        xlim(ax, [0, 1])
     end
 
     records = peak_detection(c, W, T);
