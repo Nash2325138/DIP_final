@@ -29,7 +29,7 @@ function [rotate_estimate, resize_estimate, I, B] = interpolation_estimate(imr, 
     if show == 1
         subplot(3,2,[2,4,6])
         imshow(imr)
-        
+
         rowf_sum = rowf_sum ./ height;
         subplot(3,2,1)
         plot([2: width] ./ width, abs(rowf_sum(2:end)))
@@ -55,7 +55,7 @@ function [rotate_estimate, resize_estimate, I, B] = interpolation_estimate(imr, 
             f1 = min(I(1), I(2));
             f2 = max(I(1), I(2));
             rotate_estimate = [acosd(1 - f1), asind(f2)];
-            
+
             if abs(rotate_estimate(1) - rotate_estimate(2)) > 3
 %                 disp('estimated angle > 30')
                 rotate_estimate(2) = asind(1 - f2);
@@ -73,6 +73,6 @@ function [rotate_estimate, resize_estimate, I, B] = interpolation_estimate(imr, 
         rotate_estimate = [0, 0];
         resize_estimate = [0, 0, 0];
     end
-    
+
 end
 
