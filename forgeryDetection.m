@@ -23,16 +23,34 @@ for ti = 1 : size(Ts, 2)
             [rotate_estimate, resize_estimate, freq, magn] = interpolation_estimate(subim, delta, W, Ts(ti), show);
             rt1 = rotate_estimate(1);
             rt2 = rotate_estimate(2);
-            if ~isnan(rt1) && ~isnan(rt2) && rt1 ~= 0 && rt2 ~= 0
-                fa = cast(freq(1) * 1000, 'int32');
-                fb = cast(freq(2) * 1000, 'int32');
-                freq_counter(fa) = freq_counter(fa) + 1;
-                freq_counter(fb) = freq_counter(fb) + 1;
-                bin_top_freq_a(sidx, sidy) = fa;
-                bin_top_freq_b(sidx, sidy) = fb;
+            if ~isnan(rt1) && ~isnan(rt2)
+                if rt1 ~= 0 && rt2 ~= 0
+                    fa = cast(freq(1) * 1000, 'int32');
+                    fb = cast(freq(2) * 1000, 'int32');
+                    freq_counter(fa) = freq_counter(fa) + 1;
+                    freq_counter(fb) = freq_counter(fb) + 1;
+                    bin_top_freq_a(sidx, sidy) = fa;
+                    bin_top_freq_b(sidx, sidy) = fb;
+                end
+            elseif isnan(rt1) && ~isnan(rt2)
+                if rt2 ~= 0
+                    f = cast(freq(1) * 1000, 'int32');
+                    freq_counter(f) = freq_counter(f) + 1;
+                    bin_top_freq_a(sidx, sidy) = f;
+                    bin_top_freq_b(sidx, sidy) = f;
+                end
             else
                 bin_top_freq_a(sidx, sidy) = -1;
                 bin_top_freq_b(sidx, sidy) = -1;
+            end
+            re1 = resize_estimate(1);
+            re2 = resize_estimate(2);
+            re3 = resize_estimate(3);
+            if re1 ~= 0 || re2 ~= 0 || re3 ~= 0
+                f = cast(freq(1) * 1000, 'int32');
+                freq_counter(f) = freq_counter(f) + 1;
+                bin_top_freq_a(sidx, sidy) = f;
+                bin_top_freq_b(sidx, sidy) = f;
             end
         end
     end
