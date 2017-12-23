@@ -36,8 +36,11 @@ for ti = 1 : size(Ts, 2)
             end
         end
     end
-
-    [~, globmaxfreq] = maxk(freq_counter, 2);
+    
+    
+    [~, globmaxfreq] = sort(freq_counter, 'descend');
+    globmaxfreq = globmaxfreq(1:2);
+    
     for i = 1 : bh
         for j = 1 : bw
             if bin_top_freq_a(i, j) == globmaxfreq(1) || ...

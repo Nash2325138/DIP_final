@@ -1,6 +1,6 @@
 close all
 clear
-% imr = imread('./pic/1.tiff');
+% imr = imread('./pic/tt_rotate.tiff');
 % test_rotation(imr);
 % test_resizing(imr);
 % forgeryDetection(imr, 64, 32)
@@ -19,5 +19,6 @@ for x = 1:size(t1, 1)
         end
     end
 end
-imshow(tank2)
-imwrite(tank2, 'pic/tt_rotate.tiff')
+forgeryDetection(tank2, 64, 16)
+% imwrite(tank2, 'pic/tt_rotate.tiff')
+
