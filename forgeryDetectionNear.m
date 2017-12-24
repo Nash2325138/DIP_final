@@ -1,4 +1,4 @@
-function suspiciousGraphs = forgeryDetection(image, B, L, Ts_ratio, show)
+function suspiciousGraphs = forgeryDetectionNear(image, B, L, Ts_ratio, show)
 
 delta = 5;
 W = 2;
@@ -23,7 +23,7 @@ for ti = 1 : size(Ts, 2)
             subim = image(i:i + B, j:j + B);
             sidx = (i - 1) / L + 1;
             sidy = (j - 1) / L + 1;
-            [rotate_estimate, resize_estimate, freq, magn] = interpolation_estimate(subim, delta, W, Ts(ti), show);
+            [rotate_estimate, resize_estimate, freq, magn] = interpolation_estimate(subim, delta, W, Ts(ti), 0);
             if size(freq, 1) >= 2
                 if magn(1) >= counting_thres
                     fa = floor(freq(1) * 1000);
@@ -45,21 +45,21 @@ for ti = 1 : size(Ts, 2)
     [~, globmaxfreq] = sort(freq_counter, 'descend');
     globmaxfreq = globmaxfreq(1:2);
 
-    for i = 1 : bh
-        for j = 1 : bw
-            if bin_top_freq_a(i, j) == globmaxfreq(1) || ...
-                bin_top_freq_a(i, j) == globmaxfreq(2) || ...
-                bin_top_freq_b(i, j) == globmaxfreq(1) || ...
-                bin_top_freq_b(i, j) == globmaxfreq(2)
-                suspiciousGraph(i, j) = 1;
-            end
-        end
-    end
+    % for i = 1 : bh
+    %     for j = 1 : bw
+    %         if bin_top_freq_a(i, j) == globmaxfreq(1) || ...
+    %             bin_top_freq_a(i, j) == globmaxfreq(2) || ...
+    %             bin_top_freq_b(i, j) == globmaxfreq(1) || ...
+    %             bin_top_freq_b(i, j) == globmaxfreq(2)
+    %             suspiciousGraph(i, j) = 1;
+    %         end
+    %     end
+    % end
 
     for i = 1 : bh
         for j = 1 : bw
-            if suspiciousGraph(i, j) == 1 && hasneighbors(suspiciousGraph, bin_top_freq_a, bin_top_freq_b, i, j) == 0
-                suspiciousGraph(i, j) = 0;
+            if hasSimilar(bin_top_freq_a, bin_top_freq_b, i, j) == 0
+                suspiciousGraph(i, j) = 1;
             end
         end
     end
