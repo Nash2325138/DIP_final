@@ -1,9 +1,9 @@
 function result = hasneighbors(matrix, ftopa, ftopb, x, y)
 
-% mv = [-1, -1; -1, 0; -1, 1; 0, -1; 0, 1; 1, -1; 1, 0; 1, 1];
-% smv = 8;
-mv = [-1, 0; 1, 0; 0, -1; 0, 1];
-smv = 4;
+mv = [-1, -1; -1, 0; -1, 1; 0, -1; 0, 1; 1, -1; 1, 0; 1, 1];
+smv = 8;
+% mv = [-1, 0; 1, 0; 0, -1; 0, 1];
+% smv = 4;
 
 [h, w] = size(matrix);
 

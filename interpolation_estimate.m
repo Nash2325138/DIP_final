@@ -52,12 +52,12 @@ function [rotate_estimate, resize_estimate, F, B] = interpolation_estimate(imr, 
         bar([2: width] ./ width, c(2:end))
         xlim(ax, [0, 1])
 
+        % ax = subplot(4,2,7);
+        % bar([1: size(AD_records, 1) * 2] ./ width, [AD_records; flip(AD_records, 1)])
+        % xlim(ax, [0, 1])
         ax = subplot(4,2,7);
-        bar([1: size(AD_records, 1) * 2] ./ width, [AD_records; flip(AD_records, 1)])
-        xlim(ax, [0, 1])
-%         ax = subplot(4,2,7);
-%         bar([1: size(records, 1) * 2] ./ width, [records; flip(records, 1)]);
-%         xlim(ax, [0, 1]);
+        bar([1: size(records, 1) * 2] ./ width, [records; flip(records, 1)]);
+        xlim(ax, [0, 1]);
     end
 
     [B, I] = sort(records, 'descend');
