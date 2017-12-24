@@ -1,4 +1,10 @@
-function [rotate_estimate, resize_estimate, F, B] = interpolation_estimate(imr, delta, W, T, show)
+function [rotate_estimate, resize_estimate, F, B] = interpolation_estimate(imr_hey, delta, W, T, show)
+    if size(imr_hey, 3) == 3
+        imr = rgb2gray(imr_hey);
+    else
+        imr = imr_hey;
+    end
+
     filter = fspecial('laplacian', 0);
     imf = imfilter(imr, filter);
 
@@ -40,7 +46,7 @@ function [rotate_estimate, resize_estimate, F, B] = interpolation_estimate(imr, 
 
     if show == 1
         subplot(4,2,[2,4,6,8])
-        imshow(imr)
+        imshow(imr_hey)
 
         subplot(4,2,1)
         plot([2: width] ./ width, abs(dft_average(2:end)))
@@ -55,14 +61,28 @@ function [rotate_estimate, resize_estimate, F, B] = interpolation_estimate(imr, 
         ax = subplot(4,2,7);
         bar([1: size(AD_records, 1) * 2] ./ width, [AD_records; flip(AD_records, 1)])
         xlim(ax, [0, 1])
-%         ax = subplot(4,2,7);
-%         bar([1: size(records, 1) * 2] ./ width, [records; flip(records, 1)]);
-%         xlim(ax, [0, 1]);
     elseif show == 2
         subplot(1,2,2)
-        imshow(imr)
+        imshow(imr_hey)
         subplot(1,2,1)
         plot([2: width] ./ width, abs(dft_average(2:end)))
+    elseif show == 3
+        subplot(4,2,[2,4,6])
+        imshow(imr_hey)
+        
+        subplot(4,2,1)
+        plot([2: width] ./ width, abs(dft_average(2:end)))
+
+        subplot(4,2,3)
+        plot([2: width] ./ width, abs(average_dft(2:end)))
+
+        ax = subplot(4,2,5);
+        bar([2: width] ./ width, c(2:end))
+        xlim(ax, [0, 1])
+
+        ax = subplot(4,2,7);
+        bar([1: size(AD_records, 1) * 2] ./ width, [AD_records; flip(AD_records, 1)])
+        xlim(ax, [0, 1])
     end
 
     [B, I] = sort(records, 'descend');
@@ -78,7 +98,7 @@ function [rotate_estimate, resize_estimate, F, B] = interpolation_estimate(imr, 
                 f2 = max(F(1), F(2));
                 rotate_estimate = [acosd(1 - f1), asind(f2)];
 
-                if abs(rotate_estimate(1) - rotate_estimate(2)) > 3
+                if abs(rotate_estimate(1) - rotate_estimate(2)) > 3 && rotate_estimate(1) > 29
                     % may result from rotaion angle > 30)
                     rotate_estimate(2) = asind(1 - f2);
                 end
@@ -96,6 +116,19 @@ function [rotate_estimate, resize_estimate, F, B] = interpolation_estimate(imr, 
     else
         rotate_estimate = [0, 0];
         resize_estimate = [0, 0, 0];
+    end
+    
+    if show == 3
+        delete(subplot(4,2,8))
+        ax = subplot(4,2,8);
+        set(ax,'visible','off');
+        t1 = text(0, 0, sprintf('Eestimated resize factor: %.3f, %.3f, %.3f\n', resize_estimate(3), resize_estimate(1:2)), 'fontsize', 18);
+        t2 = text(0, 0.5, sprintf('Estimated rotate angle: %.3f, %.3f\n', rotate_estimate), 'fontsize', 18);
+        set(t1,'visible','on')
+        set(t2,'visible','on')
+%         
+%         h = title(sprintf('Rotated by %d degree (bilinear)', angle), 'FontSize', 20);
+%         set(h,'visible','on')
     end
 
 end
