@@ -6,8 +6,8 @@ Ts = [B * 0.05, B * 0.07, B * 0.08, B * 0.12];
 show = 0;
 
 [height, width] = size(image);
-bh = cast((height - B) / L, 'int32');
-bw = cast((width - B) / L, 'int32');
+bh = floor((height - B) / L);
+bw = floor((width - B) / L);
 
 for ti = 1 : size(Ts, 2)
     suspiciousGraph = zeros([bh, bw]);
@@ -25,8 +25,8 @@ for ti = 1 : size(Ts, 2)
             rt2 = rotate_estimate(2);
             if ~isnan(rt1) && ~isnan(rt2)
                 if rt1 ~= 0 && rt2 ~= 0
-                    fa = cast(freq(1) * 1000, 'int32');
-                    fb = cast(freq(2) * 1000, 'int32');
+                    fa = floor(freq(1) * 1000);
+                    fb = floor(freq(2) * 1000);
                     freq_counter(fa) = freq_counter(fa) + 1;
                     freq_counter(fb) = freq_counter(fb) + 1;
                     bin_top_freq_a(sidx, sidy) = fa;
@@ -34,31 +34,27 @@ for ti = 1 : size(Ts, 2)
                 end
             elseif isnan(rt1) && ~isnan(rt2)
                 if rt2 ~= 0
-                    f = cast(freq(1) * 1000, 'int32');
+                    f = floor(freq(1) * 1000);
                     freq_counter(f) = freq_counter(f) + 1;
                     bin_top_freq_a(sidx, sidy) = f;
                     bin_top_freq_b(sidx, sidy) = f;
                 end
-            else
-                bin_top_freq_a(sidx, sidy) = -1;
-                bin_top_freq_b(sidx, sidy) = -1;
             end
             re1 = resize_estimate(1);
             re2 = resize_estimate(2);
             re3 = resize_estimate(3);
             if re1 ~= 0 || re2 ~= 0 || re3 ~= 0
-                f = cast(freq(1) * 1000, 'int32');
+                f = floor(freq(1) * 1000);
                 freq_counter(f) = freq_counter(f) + 1;
                 bin_top_freq_a(sidx, sidy) = f;
                 bin_top_freq_b(sidx, sidy) = f;
             end
         end
     end
-    
-    
+
     [~, globmaxfreq] = sort(freq_counter, 'descend');
     globmaxfreq = globmaxfreq(1:2);
-    
+
     for i = 1 : bh
         for j = 1 : bw
             if bin_top_freq_a(i, j) == globmaxfreq(1) || ...
@@ -72,7 +68,7 @@ for ti = 1 : size(Ts, 2)
 
     for i = 1 : bh
         for j = 1 : bw
-            if suspiciousGraph(i, j) == 1 && hasneighbors(suspiciousGraph, i, j) == 0
+            if suspiciousGraph(i, j) == 1 && hasneighbors(suspiciousGraph, bin_top_freq_a, bin_top_freq_b, i, j) == 0
                 suspiciousGraph(i, j) = 0;
             end
         end

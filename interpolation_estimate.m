@@ -15,14 +15,20 @@ function [rotate_estimate, resize_estimate, F, B] = interpolation_estimate(imr, 
         rowf_sum = rowf_sum + abs(rowf);
         for j = 1 : width
             flag = 1;
+            inrange = 1;
             for k = -delta : delta
+                if j + k <= 0 || j + k > width
+                    inrange = 0;
+                end
                 if j + k > 0 && j + k <= width && k ~= 0
                     if abs(rowf(j + k)) > abs(rowf(j))
                         flag = 0;
                     end
                 end
             end
-            c(j) = c(j) + flag;
+            if inrange == 1
+                c(j) = c(j) + flag;
+            end
         end
     end
 
@@ -58,7 +64,7 @@ function [rotate_estimate, resize_estimate, F, B] = interpolation_estimate(imr, 
     F = I ./ width;
     B = B ./ height;
 
-    counting_thres = 0.15;
+    counting_thres = 0.20;
     if B(1) >= counting_thres
         if AD_records(I(1)) == 0
             resize_estimate = [0, 0, 0];
