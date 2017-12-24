@@ -1,24 +1,25 @@
 close all
 clear
-% imr = imread('./pic/tt_rotate.tiff');
-% test_rotation(imr);
-% test_resizing(imr);
-% forgeryDetection(imr, 64, 32)
 
-tank1 = imread('./pic/tank1.tiff');
-tank2 = imread('./pic/tank2.tiff');
-t1 = imread('./pic/tank1_small.tiff');
-t1 = imrotate(t1, 23, 'bilinear');
-
-x_st = 50;
-y_st = 300;
-for x = 1:size(t1, 1)
-    for y = 1:size(t1, 2)
-        if t1(x, y) > 0
-            tank2(x_st + x, y_st + y) = t1(x, y);
-        end
-    end
+imr = imread('./pic/bridge.tiff');
+if size(imr, 3) == 3
+    imr = rgb2gray(imr);
 end
-forgeryDetection(tank2, 64, 16)
-% imwrite(tank2, 'pic/tt_rotate.tiff')
+% record = test_rotation(imr, 0.1);
+% record = test_resizing(imr, 0.1);
 
+% forgeryDetection(imr, 64, 16)
+
+delta = 5;
+W = 2;
+T = 2;
+show = 1;
+
+figure
+imr_rotate = imRotateCrop(imr, 23, 'bilinear');
+[rotate_estimate, resize_estimate, I, B] = interpolation_estimate(imr_rotate, delta, W, T, show);
+
+figure
+imr_resize = imresize(imr, 2.3, 'bilinear');
+[rotate_estimate, resize_estimate, I, B] = interpolation_estimate(imr_resize, delta, W, T, show);
+        

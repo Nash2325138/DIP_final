@@ -1,3 +1,6 @@
 .DS_Store
 *~
 ./pic/.DS_Store
+
+demo/animation/1/resize/*.png
+demo/animation/1/rotate/*.png
