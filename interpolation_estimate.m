@@ -62,7 +62,7 @@ function [rotate_estimate, resize_estimate, F, B] = interpolation_estimate(imr, 
     if B(1) >= counting_thres
         if AD_records(I(1)) == 0
             resize_estimate = [0, 0, 0];
-            if B(2) >= counting_thres
+            if B(2) >= counting_thres && B(2)/B(3) >= 1.1
                 f1 = min(F(1), F(2));
                 f2 = max(F(1), F(2));
                 rotate_estimate = [acosd(1 - f1), asind(f2)];
