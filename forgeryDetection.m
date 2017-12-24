@@ -1,8 +1,9 @@
-function forgeryDetection(image, B, L)
+function suspiciousGraphs = forgeryDetection(image, B, L, Ts_ratio, show)
 
 delta = 5;
 W = 2;
-Ts = [B * 0.05, B * 0.07, B * 0.15];
+% Ts = [B * 0.05, B * 0.07, B * 0.15];
+Ts = Ts_ratio .* B;
 show = 0;
 
 [height, width] = size(image);
@@ -10,6 +11,7 @@ bh = ceil((height - B) / L);
 bw = ceil((width - B) / L);
 
 counting_thres = 0.15;
+suspiciousGraphs = zeros([size(Ts, 2), bh, bw]);
 
 for ti = 1 : size(Ts, 2)
     suspiciousGraph = zeros([bh, bw]);
@@ -63,19 +65,22 @@ for ti = 1 : size(Ts, 2)
         end
     end
 
-    subplot(2, 2, ti);
-    imshow(image);
-    for i = 1 : bh
-        for j = 1 : bw
-            if suspiciousGraph(i, j) == 1
-                x = (i - 1) * L + 1;
-                y = (j - 1) * L + 1;
-                rectangle('Position', [y, x, B, B], ...
-                        'EdgeColor', 'red', ...
-                        'LineWidth', 1.5);
+    if show == 1
+        subplot(2, 2, ti);
+        imshow(image);
+        for i = 1 : bh
+            for j = 1 : bw
+                if suspiciousGraph(i, j) == 1
+                    x = (i - 1) * L + 1;
+                    y = (j - 1) * L + 1;
+                    rectangle('Position', [y, x, B, B], ...
+                            'EdgeColor', 'red', ...
+                            'LineWidth', 1.5);
+                end
             end
         end
     end
+    suspiciousGraphs(ti, :, :) = suspiciousGraph;
 end
 
 end
