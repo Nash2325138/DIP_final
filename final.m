@@ -1,15 +1,20 @@
 close all
 clear
 
-imr = imread('./pic/spliced/street_pepper.tiff');
+imr = imread('./pic/rotation_pair/000/spliced.jpg');
+if size(imr, 3) == 3
+    imr_gray = rgb2gray(imr);
+else
+    imr_gray = imr;
+end
 % record = test_rotation(imr, 0.1);
 % record = test_resizing(imr, 0.1);
 
-B = 128;
-L = 32;
+B = 32;
+L = 8;
 
-Ts_ratio = [0.13];
-suspiciousGraphs = forgeryDetection(imr, B, L, Ts_ratio, 0);
+Ts_ratio = [0.18, 0.2, 0.23];
+suspiciousGraphs = forgeryDetection(imr_gray, B, L, Ts_ratio, 0);
 
 figure
 rect_suspicious(imr, squeeze(suspiciousGraphs(1, :, :)), B, L);

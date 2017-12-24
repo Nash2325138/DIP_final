@@ -1,9 +1,10 @@
 function [rotate_estimate, resize_estimate, F, B] = interpolation_estimate(imr_hey, delta, W, T, show)
-    if size(imr_hey, 3) == 3
-        imr = rgb2gray(imr_hey);
-    else
-        imr = imr_hey;
-    end
+%     if size(imr_hey, 3) == 3
+%         imr = rgb2gray(imr_hey);
+%     else
+%         imr = imr_hey;
+%     end
+    imr = imr_hey;
 
     filter = fspecial('laplacian', 0);
     imf = imfilter(imr, filter);

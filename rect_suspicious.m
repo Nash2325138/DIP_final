@@ -1,7 +1,8 @@
 function rect_suspicious(image, suspiciousGraph, B, L)
     [height, width] = size(image);
-    bh = ceil((height - B) / L); % == size(image, 1)
-    bw = ceil((width - B) / L);  % == size(image, 2)
+%     bh = ceil((height - B) / L); 
+%     bw = ceil((width - B) / L);
+    [bh, bw] = size(suspiciousGraph);
     imshow(image);
     for i = 1 : bh
         for j = 1 : bw
@@ -9,7 +10,7 @@ function rect_suspicious(image, suspiciousGraph, B, L)
                 x = (i - 1) * L + 1;
                 y = (j - 1) * L + 1;
                 rectangle('Position', [y, x, B, B], ...
-                        'EdgeColor', 'yellow', ...
+                        'EdgeColor', 'red', ...
                         'LineWidth', 1.5);
             end
         end
