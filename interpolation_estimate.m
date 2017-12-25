@@ -72,17 +72,17 @@ function [rotate_estimate, resize_estimate, F, B] = interpolation_estimate(imr_h
         imshow(imr_hey)
         
         subplot(4,2,1)
-        plot([2: width] ./ width, abs(dft_average(2:end)))
+        plot([2: width] ./ width, abs(dft_average(2:end)), 'LineWidth', 1.5)
 
-        subplot(4,2,3)
-        plot([2: width] ./ width, abs(average_dft(2:end)))
+        subplot(4,2,5)
+        plot([2: width] ./ width, abs(average_dft(2:end)), 'LineWidth', 1.5)
 
-        ax = subplot(4,2,5);
-        bar([2: width] ./ width, c(2:end))
+        ax = subplot(4,2,3);
+        bar([2: width] ./ width, c(2:end), 1.8)
         xlim(ax, [0, 1])
 
         ax = subplot(4,2,7);
-        bar([1: size(AD_records, 1) * 2] ./ width, [AD_records; flip(AD_records, 1)])
+        bar([1: size(AD_records, 1) * 2] ./ width, [AD_records; flip(AD_records, 1)], 1.8)
         xlim(ax, [0, 1])
     end
 
@@ -123,8 +123,8 @@ function [rotate_estimate, resize_estimate, F, B] = interpolation_estimate(imr_h
         delete(subplot(4,2,8))
         ax = subplot(4,2,8);
         set(ax,'visible','off');
-        t1 = text(0, 0, sprintf('Eestimated resize factor: %.3f, %.3f, %.3f\n', resize_estimate(3), resize_estimate(1:2)), 'fontsize', 18);
-        t2 = text(0, 0.5, sprintf('Estimated rotate angle: %.3f, %.3f\n', rotate_estimate), 'fontsize', 18);
+        t1 = text(-0.15, 0, sprintf('Estimated resize factor: %.3f, %.3f, %.3f\n', resize_estimate(3), resize_estimate(1:2)), 'fontsize', 25);
+        t2 = text(-0.15, 0.5, sprintf('Estimated rotate angle: %.3f, %.3f\n', rotate_estimate), 'fontsize', 25);
         set(t1,'visible','on')
         set(t2,'visible','on')
 %         

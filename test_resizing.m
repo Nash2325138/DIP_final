@@ -18,7 +18,7 @@ function record = test_resizing(imr, pausing)
 %         set(h,'visible','on')
         if show == 3
             subplot(4,2,8);
-            h = title(sprintf('Resized by %.1f (bilinear)', factor), 'FontSize', 20);
+            h = title(sprintf('Resized by %.1f (bilinear)', factor), 'FontSize', 25);
             set(h,'visible','on')
         end
         saveas(gcf, sprintf('./demo/animation/2/resize/%03d.png', i-1))

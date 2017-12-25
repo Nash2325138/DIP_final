@@ -17,10 +17,10 @@ function record = test_rotation(imr, pausing)
 %         set(h,'visible','on')
         if show == 3
             subplot(4,2,8);
-            h = title(sprintf('Rotated by %d degree (bilinear)', angle), 'FontSize', 20);
+            h = title(sprintf('Rotated by %d degree (bilinear)', angle), 'FontSize', 25);
             set(h,'visible','on')
         end
-        saveas(gcf, sprintf('./demo/animation/2/rotation/%03d.png', i-1))
+        saveas(gcf, sprintf('./demo/animation/2/rotate/%03d.png', i-1))
 
         fprintf('Rotating by %d\n', angle)
         fprintf('Eestimated factor: %.3f, %.3f, %.3f\n', resize_estimate)
