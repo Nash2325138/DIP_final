@@ -2,13 +2,13 @@
 
 ## Report
 
-For detailed description of what we've done, please refer to our [report](https://github.com/Nash2325138/DIP_final/blob/master/report/Report.pdf).
+For detailed description of what we've done, please refer to our [report](https://github.com/Nash2325138/DIP_final/blob/master/report/Report.pdf).<br>
+Besides the example showed in the report, there are more examples in [demo/partial_detect](https://github.com/Nash2325138/DIP_final/tree/master/demo/partial_detect)
 
 ## To run
 
-If you want to get the results in the report, please run final.m, where there are two tests for Algorithm 1 and 2.
-
-It's preferred to run one of them and comment the other at one time.
+If you want to get the results in the report, please run final.m, where there are two tests for Algorithm 1 and 2.<br>
+It's preferred to run one of them and comment the other at a time.
 
 ### Algorithm 1 test
 It will give you the same results of demo videos (estimation of rotation, resizing factor)
