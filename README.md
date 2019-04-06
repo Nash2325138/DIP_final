@@ -27,3 +27,7 @@ for i = 1:size(Ts_ratio, 2)
     print_scores(should_be_marked, squeeze(suspiciousGraphs(i,:,:)))
 end
 ```
+
+## An example from our report
+Test with different hyper-parameters.
+![](https://i.imgur.com/3zbNmQ5.jpg)
